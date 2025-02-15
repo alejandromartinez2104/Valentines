@@ -3,7 +3,6 @@
 <head>
     <title>Pink Envelope</title>
     <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
             --color-env: #FFB7C5;
@@ -15,32 +14,14 @@
             --wax-red: #c04040;
         }
 
-        body {
-            background-color: var(--color-bg);
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Handlee', cursive;
-        }
-
-        .envlope-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 280px;
-            height: 380px;
-            margin-top: 50px;
-            animation: float 3s ease-in-out infinite;
-        }
-
         #envelope {
             position: relative;
-            width: 100%;
+            width: 280px;
             height: 180px;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
+            margin: 0 auto;
+            top: 150px;
             background-color: var(--color-flap);
             box-shadow: 0 4px 20px rgba(0,0,0,.1);
             cursor: pointer;
@@ -54,8 +35,8 @@
         }
 
         .flap {
-            border-left: 50% solid transparent;
-            border-right: 50% solid transparent;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
             border-bottom: 82px solid transparent;
             border-top: 98px solid var(--color-flap);
             transform-origin: top;
@@ -63,8 +44,8 @@
         }
 
         .pocket {
-            border-left: 50% solid var(--color-env);
-            border-right: 50% solid var(--color-env);
+            border-left: 140px solid var(--color-env);
+            border-right: 140px solid var(--color-env);
             border-bottom: 90px solid var(--color-env2);
             border-top: 90px solid transparent;
             border-bottom-left-radius: 6px;
@@ -100,6 +81,7 @@
         .message {
             position: relative;
             z-index: 2;
+            font-family: 'Handlee', cursive;
             color: #d46a84;
             text-align: center;
             line-height: 1;
@@ -112,6 +94,43 @@
             text-shadow: 0 2px 3px rgba(0,0,0,0.1);
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .envlope-wrapper {
+            height: 380px;
+            margin-top: 50px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .open .flap {
+            transform: rotateX(180deg);
+            transition: transform 0.4s ease, z-index 0.6s;
+            z-index: 1;
+        }
+
+        .close .flap {
+            transform: rotateX(0deg);
+            transition: transform 0.4s 0.6s ease, z-index 1s;
+            z-index: 5;
+        }
+
+        .close .letter {
+            transform: translateY(0px); 
+            transition: transform 0.4s ease, z-index 1s;
+            z-index: 1;
+        }
+
+        .open .letter {
+            transform: translateY(-60px) rotate(-2deg);
+            transition: transform 0.4s 0.6s ease, z-index 0.6s;
+            z-index: 2;
+        }
+
+        
+
         .letter-corner {
             position: absolute;
             width: 20px;
@@ -120,7 +139,6 @@
             border-radius: 5px;
             z-index: 3;
         }
-
         .corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
         .corner-br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 
@@ -180,11 +198,6 @@
         .s2 { left: 60%; animation: sparkleUp 4s linear infinite; }
         .s3 { left: 45%; animation: sparkleUp 5s linear infinite; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
         @keyframes slideUp {
             0% { top: 0; }
             100% { top: -600px; }
@@ -206,34 +219,18 @@
             50% { transform: scale(1.5); }
         }
 
-        .open .flap {
-            transform: rotateX(180deg);
-            transition: transform 0.4s ease, z-index 0.6s;
-            z-index: 1;
-        }
-
-        .close .flap {
-            transform: rotateX(0deg);
-            transition: transform 0.4s 0.6s ease, z-index 1s;
-            z-index: 5;
-        }
-
-        .close .letter {
-            transform: translateY(0px); 
-            transition: transform 0.4s ease, z-index 1s;
-            z-index: 1;
-        }
-
-        .open .letter {
-            transform: translateY(-60px) rotate(-2deg);
-            transition: transform 0.4s 0.6s ease, z-index 0.6s;
-            z-index: 2;
+        body {
+            background-color: var(--color-bg);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .reset {
             text-align: center;
-            margin-top: 20px;
-            width: 100%;
+            margin-top: 50px;
         }
 
         .reset button {
@@ -243,14 +240,12 @@
             border: 2px solid var(--color-env2);
             border-radius: 20px;
             color: white;
-            padding: 15px 30px;
+            padding: 12px 25px;
             margin: 10px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
             font-family: Arial, sans-serif;
-            width: 45%;
-            max-width: 200px;
         }
 
         .reset button:hover {
@@ -263,14 +258,15 @@
 <body>
     <div class="envlope-wrapper">
         <div id="envelope" class="close">
+            <div class="wax-seal"></div>
             <div class="front flap"></div>
             <div class="front pocket"></div>
             <div class="letter">
                 <div class="letter-corner corner-tl"></div>
                 <div class="letter-corner corner-br"></div>
                 <div class="message">
-                    <p>I love you,</p>
-                    <p>most ardently</p>
+                    <p>I look forward to</p>
+                    <p>a lifetime together</p>
                 </div>
             </div>
             <div class="hearts">
