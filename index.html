@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pink Envelope</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Envelope</title>
     <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,7 +13,17 @@
             --color-bg: #ed7fca;
             --color-heart: #ff85a2;
             --color-sparkle: #fff;
-            --wax-red: #c04040;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Handlee', cursive;
         }
 
         #envelope {
@@ -21,17 +32,16 @@
             height: min(180px, 58vw);
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
-            margin: 0 auto;
             background-color: var(--color-flap);
             box-shadow: 0 4px 20px rgba(0,0,0,.1);
             cursor: pointer;
+            margin-bottom: 20px;
         }
 
         .front {
             position: absolute;
             width: 0;
             height: 0;
-            z-index: 3;
         }
 
         .flap {
@@ -40,7 +50,7 @@
             border-bottom: calc(min(180px, 58vw) * 0.456) solid transparent;
             border-top: calc(min(180px, 58vw) * 0.544) solid var(--color-flap);
             transform-origin: top;
-            pointer-events: none;
+            transition: transform 0.4s ease;
         }
 
         .pocket {
@@ -53,16 +63,15 @@
         }
 
         .letter {
-            position: relative;
+            position: absolute;
             background-color: #e0d9dd;
             width: 90%;
-            margin: 0 auto;
             height: 90%;
             top: 5%;
+            left: 5%;
             border-radius: 6px;
             box-shadow: 0 2px 26px rgba(0,0,0,.08);
-            padding: 15px;
-            box-sizing: border-box;
+            transition: transform 0.4s ease 0.1s;
         }
 
         .letter:after {
@@ -81,11 +90,10 @@
         .message {
             position: relative;
             z-index: 2;
-            font-family: 'Handlee', cursive;
             color: #d46a84;
             text-align: center;
             line-height: 1.2;
-            padding-top: 0px;
+            padding: 20px;
         }
 
         .message p {
@@ -94,25 +102,17 @@
             text-shadow: 0 2px 3px rgba(0,0,0,0.1);
         }
 
-        .envlope-wrapper {
-            height: min(380px, 100vh - 200px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: float 3s ease-in-out infinite;
+        .open .flap {
+            transform: rotateX(180deg);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .open .letter {
+            transform: translateY(-60px) rotate(-2deg);
         }
-
-        /* Rest of your animations and other styles remain the same */
 
         .reset {
             text-align: center;
             margin: 20px 0;
-            padding: 0 20px;
         }
 
         .reset button {
@@ -127,7 +127,7 @@
             font-size: min(16px, 4vw);
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            font-family: Arial, sans-serif;
+            font-family: 'Handlee', cursive;
         }
 
         .reset button:hover {
@@ -139,46 +139,31 @@
         .footer {
             text-align: center;
             color: white;
-            font-family: 'Handlee', cursive;
             padding: 20px;
             font-size: min(1.2em, 5vw);
             margin-top: auto;
         }
 
-        body {
-            background-color: var(--color-bg);
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Keep all your existing animation keyframes and other styles */
-        
+        .envelope-wrapper {
+            animation: float 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
-    <div class="envlope-wrapper">
-        <div id="envelope" class="close">
+    <div class="envelope-wrapper">
+        <div id="envelope">
             <div class="front flap"></div>
             <div class="front pocket"></div>
             <div class="letter">
-                <div class="letter-corner corner-tl"></div>
-                <div class="letter-corner corner-br"></div>
                 <div class="message">
                     <p>I love you</p>
                     <p>more each day</p>
                 </div>
-            </div>
-            <div class="hearts">
-                <div class="heart a1"></div>
-                <div class="heart a2"></div>
-                <div class="heart a3"></div>
-            </div>
-            <div class="sparkles">
-                <div class="sparkle s1"></div>
-                <div class="sparkle s2"></div>
-                <div class="sparkle s3"></div>
             </div>
         </div>
     </div>
@@ -190,24 +175,25 @@
         Happy Valentine's Day Amberly
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            const envelope = $('#envelope');
-            const btnOpen = $("#open");
-            const btnReset = $("#reset");
-
-            envelope.on('click', open);
-            btnOpen.on('click', open);
-            btnReset.on('click', close);
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelope = document.getElementById('envelope');
+            const btnOpen = document.getElementById('open');
+            const btnReset = document.getElementById('reset');
 
             function open() {
-                envelope.removeClass("close").addClass("open");
+                envelope.classList.remove("close");
+                envelope.classList.add("open");
             }
 
             function close() {
-                envelope.removeClass("open").addClass("close");
+                envelope.classList.remove("open");
+                envelope.classList.add("close");
             }
+
+            envelope.addEventListener('click', open);
+            btnOpen.addEventListener('click', open);
+            btnReset.addEventListener('click', close);
         });
     </script>
 </body>
